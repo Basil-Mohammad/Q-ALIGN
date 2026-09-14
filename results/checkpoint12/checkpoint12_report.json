@@ -1,0 +1,38 @@
+{
+  "LABEL": "MECHANISM DEMONSTRATION -- NOT THE MANUSCRIPT'S FULL STAGED TRANSFER CAMPAIGN (N=15/family, 1 seed, 8 training steps; real protocol requires N=420/family, >=10 seeds, and an independently-drawn held-out family from a pre-declared list, Sec 5.3)",
+  "pool_size_per_family": 15,
+  "frozen_weights": {
+    "alpha_plus": 0.5,
+    "beta_plus": 0.5
+  },
+  "weight_fitting_refused_reason": "A_top has (near-)zero variance in this calibration fold (std=0.00e+00 < 1e-06). This was observed in practice (Checkpoint 8: A_top=1.0 for all 20 calibration circuits at small scale) and produces a numerically singular, platform-dependent regression coefficient if not caught -- refusing to fit. Widen the calibration sample, the entangling-layout diversity, or the light-cone depth so A_top actually varies across the calibration fold.",
+  "stage_0_calibration_periodic": {
+    "tau": -0.11769797726729994,
+    "p_value": 0.6015081344405899
+  },
+  "stage_1_within_domain_classification": {
+    "tau": -0.545544725589981,
+    "p_value": 0.01918623791703808
+  },
+  "stage_2_cross_paradigm_bandit": {
+    "tau": 0.08280786712108251,
+    "p_value": 0.7133031738784577
+  },
+  "no_recalibration_verified": true,
+  "environment": {
+    "python_version": "3.11.15 (main, Mar 11 2026, 17:20:07) [GCC 14.3.0]",
+    "platform": "Linux-6.6.114.1-microsoft-standard-WSL2-x86_64-with-glibc2.35",
+    "processor": "x86_64",
+    "git_commit": "e24b4ce61a5bc1600cb27b787b5ba18d67c08e77",
+    "numpy_version": "2.4.4",
+    "scipy_version": "1.17.1",
+    "pandas_version": "3.0.2",
+    "sklearn_version": "1.8.0",
+    "matplotlib_version": "3.10.8",
+    "pennylane_version": "0.45.1",
+    "networkx_version": "3.6.1",
+    "statsmodels_version": "0.15.0",
+    "pytest_version": "9.1.1"
+  },
+  "config_hash": "3087b1aeea29822141729e590b596c8e24d323251ec373c23715ee828adba3e1"
+}

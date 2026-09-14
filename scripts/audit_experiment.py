@@ -115,6 +115,19 @@ def audit_checkpoint_9(diagnostics: List[Dict]) -> bool:
     return ok1 and ok2
 
 
+def audit_checkpoint_12(diagnostics: List[Dict]) -> bool:
+    path = RESULTS_DIR / "checkpoint12" / "checkpoint12_report.json"
+    if not path.exists():
+        return check(False, "Checkpoint 12 JSON report exists", diagnostics)
+    data = json.loads(path.read_text())
+    ok1 = check(data.get("no_recalibration_verified") is True,
+                "Checkpoint 12: no-recalibration is structurally verified (frozen weights bit-identical "
+                "across both apply_to_held_out calls), not just claimed", diagnostics)
+    ok2 = check("MECHANISM" in data.get("LABEL", "").upper(),
+                "Checkpoint 12: report is explicitly labeled as a mechanism demonstration", diagnostics)
+    return ok1 and ok2
+
+
 def audit_checkpoint_13(diagnostics: List[Dict]) -> bool:
     path = RESULTS_DIR / "checkpoint13" / "checkpoint13_report.json"
     if not path.exists():
@@ -217,6 +230,7 @@ def main():
         "checkpoint_7": audit_checkpoint_7(diagnostics),
         "checkpoint_8": audit_checkpoint_8(diagnostics),
         "checkpoint_9": audit_checkpoint_9(diagnostics),
+        "checkpoint_12": audit_checkpoint_12(diagnostics),
         "checkpoint_13": audit_checkpoint_13(diagnostics),
         "checkpoint_14": audit_checkpoint_14(diagnostics),
     }
