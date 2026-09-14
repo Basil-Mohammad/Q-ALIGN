@@ -24,11 +24,29 @@ def hierarchical_bootstrap_ci(circuit_level_values: np.ndarray, statistic_fn: Ca
                                    f"-- flagged as future work rather than silently substituted.")
     n = len(circuit_level_values)
     point_estimate = statistic_fn(circuit_level_values)
-    boot_stats = np.empty(n_bootstrap)
+    boot_stats = []
     idx_all = np.arange(n)
     for b in range(n_bootstrap):
         idx = seed_rng.choice(idx_all, size=n, replace=True)
-        boot_stats[b] = statistic_fn(circuit_level_values[idx])
+        val = statistic_fn(circuit_level_values[idx])
+        if val == val:  # excludes NaN (e.g. a resample with zero-variance columns for tau)
+            boot_stats.append(val)
+    boot_stats = np.array(boot_stats)
+    if len(boot_stats) < max(10, n_bootstrap // 10):
+        # Too many degenerate resamples to trust a percentile CI (e.g. the
+        # statistic is undefined -- NaN -- on most resamples because the
+        # underlying sample is small/degenerate). Report this explicitly
+        # rather than silently returning a CI computed from a handful of
+        # surviving resamples.
+        return {
+            "point_estimate": float(point_estimate) if point_estimate == point_estimate else None,
+            "ci_95_low": None, "ci_95_high": None,
+            "n_circuits": n, "n_bootstrap": n_bootstrap, "n_valid_resamples": len(boot_stats),
+            "method": method,
+            "warning": "Fewer than 10% of bootstrap resamples produced a defined statistic (likely NaN from "
+                        "degenerate/zero-variance resamples at small N) -- CI not reported rather than computed "
+                        "from an unreliably small valid-resample count.",
+        }
     ci_low, ci_high = np.percentile(boot_stats, [2.5, 97.5])
     return {
         "point_estimate": float(point_estimate),
@@ -36,6 +54,7 @@ def hierarchical_bootstrap_ci(circuit_level_values: np.ndarray, statistic_fn: Ca
         "ci_95_high": float(ci_high),
         "n_circuits": n,
         "n_bootstrap": n_bootstrap,
+        "n_valid_resamples": len(boot_stats),
         "method": method,
     }
 
