@@ -6,6 +6,8 @@
     "checkpoint_7": true,
     "checkpoint_8": true,
     "checkpoint_9": true,
+    "checkpoint_13": true,
+    "checkpoint_14": true,
     "checkpoint_11_static_check": true,
     "no_fabricated_final_claims": true
   },
@@ -52,6 +54,22 @@
     },
     {
       "check": "Checkpoint 9: pilot seed count is (as documented) below the >=10 final-claim floor -- confirms this cannot be mistaken for a final result",
+      "passed": true
+    },
+    {
+      "check": "Checkpoint 13: report is explicitly labeled as a mechanism demonstration",
+      "passed": true
+    },
+    {
+      "check": "Checkpoint 13: reported evaluations-to-target (11) matches re-derivation from the raw curve (11)",
+      "passed": true
+    },
+    {
+      "check": "Checkpoint 13: Kendall tau(A_min, score) diagnostic is present (prevents an unqualified headline efficiency claim)",
+      "passed": true
+    },
+    {
+      "check": "Checkpoint 14: prediction magnitude shrinks monotonically with noise (the real mechanism-correctness check, not raw accuracy)",
       "passed": true
     },
     {
