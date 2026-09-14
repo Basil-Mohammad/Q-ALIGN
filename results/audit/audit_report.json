@@ -1,0 +1,67 @@
+{
+  "overall_status": "PASS",
+  "per_checkpoint_results": {
+    "checkpoint_0": true,
+    "checkpoint_5": true,
+    "checkpoint_7": true,
+    "checkpoint_8": true,
+    "checkpoint_9": true,
+    "checkpoint_11_static_check": true,
+    "no_fabricated_final_claims": true
+  },
+  "diagnostics": [
+    {
+      "check": "Checkpoint 0: no missing packages (found missing=[])",
+      "passed": true
+    },
+    {
+      "check": "Checkpoint 5: spectral estimator PASSES pre-registered criterion at largest tested n",
+      "passed": true
+    },
+    {
+      "check": "Checkpoint 5: |bias| decreases monotonically with sample size (re-derived from raw data)",
+      "passed": true
+    },
+    {
+      "check": "Checkpoint 7: all pooled circuits exactly match target complexity",
+      "passed": true
+    },
+    {
+      "check": "Checkpoint 7: quartile counts sum to pool_size (300 == 300)",
+      "passed": true
+    },
+    {
+      "check": "Checkpoint 7: at least 3 of 4 quartiles are non-empty (found 3) -- the post-fix generator design, not the original degenerate one",
+      "passed": true
+    },
+    {
+      "check": "Checkpoint 8: real calibration/evaluation split is disjoint",
+      "passed": true
+    },
+    {
+      "check": "Checkpoint 8: leakage assertion correctly rejects an injected overlap (proves the gate is not a no-op)",
+      "passed": true
+    },
+    {
+      "check": "Checkpoint 8: weight fitting was refused, and a non-empty reason is recorded (not a silent None)",
+      "passed": true
+    },
+    {
+      "check": "Checkpoint 9: pilot report is explicitly labeled PILOT (never presented as evidence)",
+      "passed": true
+    },
+    {
+      "check": "Checkpoint 9: pilot seed count is (as documented) below the >=10 final-claim floor -- confirms this cannot be mistaken for a final result",
+      "passed": true
+    },
+    {
+      "check": "Checkpoint 11: All 4 reference-validation tests present in file",
+      "passed": true
+    },
+    {
+      "check": "No checkpoint report with a small, non-final N lacks an explicit scale disclaimer (problem files: [])",
+      "passed": true
+    }
+  ],
+  "note": "This audit re-derives PASS/FAIL from raw JSON artifacts where possible (e.g. re-checks bias monotonicity in Checkpoint 5's raw numbers) rather than trusting narrative claims in markdown reports alone."
+}
