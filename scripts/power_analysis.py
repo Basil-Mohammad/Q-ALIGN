@@ -31,7 +31,15 @@ from src.statistics.power import required_pool_size, DEFAULT_MIN_PARTIAL_R2
 from src.utils.provenance import hash_config
 
 N_PREDICTORS_EXTENDED_MODEL = 5   # n_q, P, L, G, A
-N_COVARIATE_STRATA = 4            # 2x2 binary split: expressibility x entangling capability
+N_COVARIATE_STRATA = 2            # REDUCED from 4: a single combined binary split on
+                                   # (expressibility x entangling capability) rather than
+                                   # two independent binary splits. This is the manuscript's
+                                   # own first documented fallback (Sec 5.2/5.6) for reducing
+                                   # the total budget, chosen because it does not weaken the
+                                   # pre-registered design (still a genuine covariate-adjusted
+                                   # analysis, just coarser-grained) -- unlike raising the
+                                   # minimum effect size or lowering target power, which would
+                                   # each trade away real detection capability or rigor.
 TARGET_POWER = 0.80
 PLANNING_ALPHA = 0.05 / 3         # Bonferroni-style conservative planning value (see docstring)
 N_FLOOR = 150                     # manuscript-specified floor

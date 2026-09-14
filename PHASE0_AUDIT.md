@@ -38,7 +38,13 @@ This document is the mandatory pre-coding audit required by the implementation b
 
 ## 2. UNSPECIFIED — REQUIRES EXPLICIT DECISION
 
-The manuscript is a research proposal, not a fully operationalized protocol. The following gaps are real and are **not** silently resolved. Each is given the smallest scientifically defensible default, implemented as an explicit, overridable config value — never hard-coded inside logic.
+**STATUS UPDATE: all six items below were reviewed with the researcher and
+CONFIRMED as final (not placeholders) — the researcher elected to proceed
+with the smallest-scientifically-defensible-choice defaults as originally
+proposed, per this document's own stated principle, rather than override
+them. They are recorded below exactly as confirmed, still each as an
+explicit, overridable config value (never hard-coded inside logic), so any
+future change is a visible config diff.**
 
 1. **Quantum backend.** The manuscript is backend-agnostic. **Decision:** PennyLane `default.qubit` (pure-Python statevector simulator), because it is pip-installable in this sandbox without GPU/Docker dependencies and is standard in the QML literature the manuscript cites (Schuld is a PennyLane co-author). Qiskit is not installed here; the code isolates the simulator behind `src/circuits/generators.py` so a Qiskit backend can be substituted without touching alignment math.
 2. **Task interaction graph $G_T$ ground truth for synthetic tasks.** **Decision:** for the periodic/Fourier task family, $G_T$ is defined analytically from the known closed-form target function (which pairs of variables appear in the same trigonometric term), not estimated — this is the "exact ground truth" case the manuscript calls for in estimator validation. For any real-data task family (not yet implemented), $G_T$ would require a pre-registered Sobol threshold, which is a second unspecified value flagged below.
@@ -83,12 +89,15 @@ None of these six decisions were chosen to make Q-ALIGN look better; they are re
 
 ## 5. Computational cost estimate for the full campaign (feasibility, per manuscript §5.6/§5.7)
 
-Rough estimate, to be replaced by measured pilot numbers once Checkpoint 9's timings are available (see `results/pilot/timing.json` for the actual measured pilot numbers this estimate is anchored to):
+**UPDATED with the real, corrected power analysis, and with the researcher's
+chosen mitigation applied (option 1 below, selected without compromising
+rigor). See `results/power_analysis/power_analysis_report.json`.**
 
-- Pool per task family: $N \geq 150$ (power-analysis floor) → **450 circuits minimum across 3 families**.
-- Partial training per circuit (pre-registered 50 steps, pilot-measured): ~seconds on `default.qubit` at 3–5 qubits; scaling to realistic 8–12 qubit circuits used in the manuscript's central-experiment table is expected to be 10–50× slower per circuit on a statevector simulator, and training to convergence (not just the 50-step "partial" definition) is substantially more again.
-- With 10 seeds/circuit and a full noise sweep (pre-registered grid, e.g. 5 noise levels × 10 seeds) applied to the same 450 circuits: **on the order of $450 \times 10 \times (1 + 5\times10) = $ tens of thousands of simulator training runs** for the central experiment alone, before transfer, architecture search, or cost-analysis experiments are added.
-- **This is not executable within a single interactive sandbox session or a small budget.** It is a multi-day-to-multi-week batch job on a dedicated compute allocation (a small CPU/GPU cluster or a multi-core workstation running jobs over days), consistent with the manuscript's own §5.7 feasibility-check requirement. Per the manuscript's own pre-registered fallback order (reduce noise-sweep sub-sampling → reduce covariate strata → only last-resort reduce $N$ below the power floor), the recommended next step is **not** to shrink scope silently but to make an explicit resourcing decision (see open questions, end of this document).
+- **Real required N per task family: 420** (using 2 covariate strata — a single combined binary split on expressibility×entangling capability, rather than 2 independent binary splits), given: partial R² = 0.05 (confirmed default), 5 predictors in the extended model (n_q, P, L, G, A), 80% target power, and a conservative Bonferroni-style planning alpha (0.05/3 ≈ 0.0167).
+- **Total across 3 task families: 1,260 circuits minimum.**
+- History of this number, for transparency: the manuscript's own illustrative floor was N≥150 (450 total); a genuine power-analysis bug (Cohen's f vs f², and reversed statsmodels df_num/df_denom semantics) initially produced an absurd 400,000+ requirement; after fixing the bug, the correctly-computed requirement with 4 covariate strata was 840/family (2,520 total); the researcher then selected the manuscript's own first documented fallback — reducing to 2 covariate strata — landing at the current **420/family, 1,260 total**, which does not weaken the pre-registered design's genuine covariate adjustment, unlike raising the effect-size threshold or lowering target power would have.
+- With 10 seeds/circuit and a full noise sweep (pre-registered grid, e.g. 5 noise levels × 10 seeds) applied to the same pool: on the order of $1260 \times 10 \times (1 + 5\times10) \approx 64{,}260$ simulator training runs for the central experiment alone at this N, before transfer, architecture search, or cost-analysis experiments are added.
+- **This is still not executable within a single interactive sandbox session.** It remains a multi-day batch compute allocation, though roughly half the scale of the uncorrected 4-strata estimate. This is the current, final planning number pending any further resourcing decision.
 
 ---
 
