@@ -1,0 +1,55 @@
+{
+  "checkpoint": 7,
+  "pool_size": 300,
+  "n_qubits": 4,
+  "target_complexity": {
+    "n_qubits": 4,
+    "n_parameters": 12,
+    "depth": 1,
+    "n_two_qubit_gates": 0
+  },
+  "all_circuits_complexity_matched": true,
+  "quartile_sizes_A_min": {
+    "1": 261,
+    "2": 0,
+    "3": 0,
+    "4": 39
+  },
+  "quartile_balance_ratio_max_over_min_nonzero": 6.6923076923076925,
+  "a_min_distribution": {
+    "mean": 0.05736585365853659,
+    "std": 0.15446467977899236,
+    "min": 0.0,
+    "max": 0.9
+  },
+  "a_spec_distribution": {
+    "mean": 0.08796747967479675,
+    "std": 0.19944194733372772
+  },
+  "a_top_distribution": {
+    "mean": 0.785,
+    "std": 0.3910775711628917
+  },
+  "timing": {
+    "pool_generation_seconds": 0.05329857000106131,
+    "pool_generation_seconds_per_circuit": 0.0001776619000035377,
+    "alignment_computation_seconds": 0.17598620199896686,
+    "alignment_computation_seconds_per_circuit": 0.0005866206733298895
+  },
+  "environment": {
+    "python_version": "3.11.15 (main, Mar 11 2026, 17:20:07) [GCC 14.3.0]",
+    "platform": "Linux-6.6.114.1-microsoft-standard-WSL2-x86_64-with-glibc2.35",
+    "processor": "x86_64",
+    "git_commit": "4d265231d5ef0e2deca3c67e6a2cdab84fc3beca",
+    "numpy_version": "2.4.4",
+    "scipy_version": "1.17.1",
+    "pandas_version": "3.0.2",
+    "sklearn_version": "1.8.0",
+    "matplotlib_version": "3.10.8",
+    "pennylane_version": "0.45.1",
+    "networkx_version": "3.6.1",
+    "statsmodels_version": "0.15.0",
+    "pytest_version": "9.1.1"
+  },
+  "config_hash": "eb6e0c0bf6796c32898df89d24f6b256d8f2979c4c83414de63e87ba57875210"
+}
