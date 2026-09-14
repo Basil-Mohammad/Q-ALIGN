@@ -1,0 +1,16 @@
+name: q-align
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - pip
+  - pip:
+    - numpy==2.4.4
+    - scipy==1.17.1
+    - pandas==3.0.2
+    - scikit-learn==1.8.0
+    - matplotlib==3.10.8
+    - pennylane==0.45.1
+    - networkx==3.6.1
+    - statsmodels==0.15.0
+    - pytest==9.1.1

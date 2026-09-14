@@ -1,0 +1,39 @@
+{
+  "LABEL": "PILOT -- NOT EVIDENCE FOR H0/H1 (manuscript brief Sec 45)",
+  "pool_size": 12,
+  "n_seeds_per_circuit": 3,
+  "n_seeds_note": "PILOT uses 3 seeds; manuscript brief Sec 7 requires >=10 for any final claim.",
+  "n_partial_steps": 20,
+  "quartile_sizes": {
+    "1": 10,
+    "2": 0,
+    "3": 0,
+    "4": 2
+  },
+  "illustrative_representatives": {
+    "1": "pilot_circ_006_all_to_all",
+    "4": "pilot_circ_005_circular"
+  },
+  "cost_analysis_pilot": {
+    "total_alignment_estimation_seconds": 0.018918306999921697,
+    "total_avg_partial_training_seconds": 83.23801954933329,
+    "ratio_alignment_over_training": 0.00022727963858761976,
+    "interpretation": "PILOT-SCALE ONLY (3-qubit toy circuits, 20 training steps). NOT the manuscript's pre-registered full cost-ratio table (Sec 5.6)."
+  },
+  "environment": {
+    "python_version": "3.12.3 (main, Mar  3 2026, 12:15:18) [GCC 13.3.0]",
+    "platform": "Linux-6.18.44-fc-v32-x86_64-with-glibc2.39",
+    "processor": "x86_64",
+    "git_commit": "UNAVAILABLE",
+    "numpy_version": "2.4.4",
+    "scipy_version": "1.17.1",
+    "pandas_version": "3.0.2",
+    "sklearn_version": "1.8.0",
+    "matplotlib_version": "3.10.8",
+    "pennylane_version": "0.45.1",
+    "networkx_version": "3.6.1",
+    "statsmodels_version": "0.15.0",
+    "pytest_version": "9.1.1"
+  },
+  "config_hash": "75969a0cfbe1dcc14b656537740a40887b9582baaaeb60ed4c369c2cfe33a61e"
+}

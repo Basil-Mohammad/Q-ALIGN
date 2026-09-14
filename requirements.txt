@@ -1,0 +1,11 @@
+matplotlib==3.10.8
+networkx==3.6.1
+numpy==2.4.4
+pandas==3.0.2
+pennylane==0.45.1
+pennylane_lightning==0.45.0
+pytest==9.1.1
+scikit-learn==1.8.0
+scipy==1.17.1
+scipy-openblas32==0.3.34.237.0
+statsmodels==0.15.0
