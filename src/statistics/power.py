@@ -55,17 +55,31 @@ def required_pool_size(min_partial_r2: float, alpha: float, target_power: float,
     strata, not only in aggregate.
     """
     f2 = cohens_f2_from_partial_r2(min_partial_r2)
+    f = np.sqrt(f2)  # statsmodels' FTestPower expects Cohen's f, NOT f^2 -- an
+    # earlier version of this function passed f2 directly, silently treating
+    # a much smaller effect size than intended and requiring absurdly large N
+    # (400,000+) to compensate. Found and fixed during real execution; see
+    # PHASE0_AUDIT.md changelog.
     ftp = FTestPower()
     # Search for minimal per-stratum n giving >= target_power.
     n_per_stratum = 5
     achieved = 0.0
     while achieved < target_power and n_per_stratum < 100000:
-        df_num = 1  # one added predictor (A) beyond the baseline model
-        df_denom = n_per_stratum - n_predictors_extended_model - 1
-        if df_denom <= 0:
+        # WARNING (statsmodels FTestPower.power docstring, verbatim):
+        # "The meaning of df_num and df_denom is reversed." I.e. the
+        # parameter NAMED df_num actually plays the role of denominator df,
+        # and the parameter NAMED df_denom actually plays the role of
+        # numerator df. An earlier version of this function passed them in
+        # their natural (non-reversed) roles, which pinned the effective
+        # numerator df at a constant regardless of n -- power never
+        # increased with sample size, causing the same 400,000+ bug as the
+        # f-vs-f2 issue above. Fixed here by swapping them explicitly.
+        denominator_df = n_per_stratum - n_predictors_extended_model - 1
+        numerator_df = 1  # one added predictor (A) beyond the baseline model
+        if denominator_df <= 0:
             n_per_stratum += 5
             continue
-        achieved = ftp.power(effect_size=f2, df_num=df_num, df_denom=df_denom, alpha=alpha)
+        achieved = ftp.power(effect_size=f, df_num=denominator_df, df_denom=numerator_df, alpha=alpha)
         if achieved < target_power:
             n_per_stratum += 5
     total_required = n_per_stratum * n_covariate_strata

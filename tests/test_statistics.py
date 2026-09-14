@@ -60,6 +60,35 @@ def test_power_analysis_can_exceed_floor_for_small_effects():
     assert result.required_n >= 150
 
 
+def test_power_analysis_gives_textbook_sane_n_not_hundreds_of_thousands():
+    """Regression test for a real bug found during execution: an earlier
+    version of required_pool_size (a) passed Cohen's f^2 where statsmodels'
+    FTestPower expects Cohen's f = sqrt(f2), and (b) passed df_num/df_denom
+    in their natural (non-reversed) roles despite FTestPower.power's own
+    docstring explicitly warning 'the meaning of df_num and df_denom is
+    reversed'. Together these bugs pinned the achievable power at ~1.7%
+    regardless of n, causing the search to hit its 100,000 upper bound and
+    return a required N of 400,000+ for an ordinary small-to-medium effect
+    size -- a result any textbook power table would immediately flag as
+    absurd (Cohen 1988 tables give roughly n~200 for f2=0.0526, alpha~0.017,
+    power=0.8, 1 numerator df). This test pins the corrected behavior to a
+    sane range so a regression to the old (wrong) statsmodels call pattern
+    fails loudly instead of silently producing another 400,000-circuit
+    'requirement'.
+    """
+    result = required_pool_size(min_partial_r2=DEFAULT_MIN_PARTIAL_R2, alpha=0.05 / 3, target_power=0.8,
+                                 n_predictors_extended_model=5, n_covariate_strata=1, n_floor=150)
+    # Per-stratum requirement (n_covariate_strata=1 isolates the per-stratum
+    # search from the multiplicative stratum count) must land in a textbook-
+    # plausible range, not hundreds of thousands.
+    assert 150 <= result.required_n <= 400, (
+        f"required_n={result.required_n} is outside the textbook-plausible range "
+        f"[150, 400] for f2={result.effect_size_f2:.4f}, alpha={0.05/3:.4f}, power=0.8 -- "
+        f"this likely indicates a regression of the f-vs-f2 or df_num/df_denom bug."
+    )
+    assert result.achieved_power >= 0.8
+
+
 def test_kendall_tau_with_ci_reasonable_range():
     rng = np.random.default_rng(0)
     x = np.arange(50)

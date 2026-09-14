@@ -1,0 +1,19 @@
+{
+  "inputs": {
+    "min_partial_r2": 0.05,
+    "planning_alpha": 0.016666666666666666,
+    "target_power": 0.8,
+    "n_predictors_extended_model": 5,
+    "n_covariate_strata": 4,
+    "n_floor": 150
+  },
+  "result": {
+    "required_n_per_task_family": 840,
+    "achieved_power": 0.8093731410065186,
+    "effect_size_f2": 0.052631578947368425,
+    "floor_applied": false
+  },
+  "total_across_task_families": 2520,
+  "note": "planning_alpha is a CONSERVATIVE Bonferroni-style approximation, not the final BH-FDR threshold (which requires the realized test manifest). Treat required_n as a safe upper bound for planning.",
+  "config_hash": "75c0c8287529d4c90b38f9776a5656291f07164c4ef91c8fcbb8cda626e32a87"
+}
