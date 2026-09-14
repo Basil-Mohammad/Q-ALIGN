@@ -4,43 +4,43 @@
   "n_qubits": 4,
   "target_complexity": {
     "n_qubits": 4,
-    "n_parameters": 12,
-    "depth": 1,
+    "n_parameters": 24,
+    "depth": 2,
     "n_two_qubit_gates": 0
   },
   "all_circuits_complexity_matched": true,
   "quartile_sizes_A_min": {
-    "1": 261,
-    "2": 0,
-    "3": 0,
-    "4": 39
+    "1": 132,
+    "2": 71,
+    "3": 97,
+    "4": 0
   },
-  "quartile_balance_ratio_max_over_min_nonzero": 6.6923076923076925,
+  "quartile_balance_ratio_max_over_min_nonzero": 1.8591549295774648,
   "a_min_distribution": {
-    "mean": 0.05736585365853659,
-    "std": 0.15446467977899236,
+    "mean": 0.5016585365853659,
+    "std": 0.3314889668716657,
     "min": 0.0,
     "max": 0.9
   },
   "a_spec_distribution": {
-    "mean": 0.08796747967479675,
-    "std": 0.19944194733372772
+    "mean": 0.5646341463414634,
+    "std": 0.3616787537582036
   },
   "a_top_distribution": {
-    "mean": 0.785,
-    "std": 0.3910775711628917
+    "mean": 0.98,
+    "std": 0.13999999999999999
   },
   "timing": {
-    "pool_generation_seconds": 0.05329857000106131,
-    "pool_generation_seconds_per_circuit": 0.0001776619000035377,
-    "alignment_computation_seconds": 0.17598620199896686,
-    "alignment_computation_seconds_per_circuit": 0.0005866206733298895
+    "pool_generation_seconds": 0.09248353700058942,
+    "pool_generation_seconds_per_circuit": 0.0003082784566686314,
+    "alignment_computation_seconds": 0.20251896300032968,
+    "alignment_computation_seconds_per_circuit": 0.0006750632100010989
   },
   "environment": {
     "python_version": "3.11.15 (main, Mar 11 2026, 17:20:07) [GCC 14.3.0]",
     "platform": "Linux-6.6.114.1-microsoft-standard-WSL2-x86_64-with-glibc2.35",
     "processor": "x86_64",
-    "git_commit": "4d265231d5ef0e2deca3c67e6a2cdab84fc3beca",
+    "git_commit": "193383a3c7a16e6e191a45e53392133aad3aabaf",
     "numpy_version": "2.4.4",
     "scipy_version": "1.17.1",
     "pandas_version": "3.0.2",
@@ -51,5 +51,5 @@
     "statsmodels_version": "0.15.0",
     "pytest_version": "9.1.1"
   },
-  "config_hash": "eb6e0c0bf6796c32898df89d24f6b256d8f2979c4c83414de63e87ba57875210"
+  "config_hash": "d76460cb75c5e85cc2062572a0a18b91055041bc723eb549a4abfc4c1b5f4273"
 }
