@@ -65,3 +65,37 @@ def test_fit_handles_near_zero_a_spec_without_crashing():
     alpha, beta, shift = fit_conjunctive_log_linear(a_spec, a_top, perf_series, epsilon=1e-3)
     assert np.isfinite(alpha)
     assert np.isfinite(beta)
+
+
+def test_zero_variance_predictor_raises_instead_of_returning_unstable_number():
+    """Regression test for a REAL bug found in practice (Checkpoint 8,
+    two different machines): when A_top is exactly constant across the
+    calibration fold (e.g. saturated at 1.0 for every circuit at small
+    scale), the design matrix (constant column + intercept) is singular,
+    and an unregularized/NNLS-constrained least-squares fit returns an
+    ARBITRARY, platform-dependent coefficient for the degenerate predictor
+    -- observed values for the same nominal computation included 0, 14.3,
+    and 686.9 across different runs/machines. The fix is to detect
+    near-zero-variance predictors before fitting and raise, rather than
+    silently return a number that happens to come out of whichever
+    floating-point path the local BLAS/LAPACK/sklearn version takes.
+    """
+    n = 20
+    rng = np.random.default_rng(2)
+    a_spec_varying = rng.uniform(0.1, 0.9, n)
+    a_top_constant = np.full(n, 1.0)  # exactly the real Checkpoint 8 scenario
+    perf = rng.normal(size=n)
+    perf_series = PerformanceSeries(circuit_ids=np.array([f"c{i}" for i in range(n)]),
+                                     values=perf, higher_is_better=True, raw_metric_name="synthetic")
+
+    with pytest.raises(ValueError, match="zero variance"):
+        fit_additive(a_spec_varying, a_top_constant, perf_series)
+
+    with pytest.raises(ValueError, match="zero variance"):
+        fit_conjunctive_log_linear(a_spec_varying, a_top_constant, perf_series, epsilon=1e-3)
+
+    # Symmetric check: a constant A_spec must also be rejected.
+    a_spec_constant = np.full(n, 0.5)
+    a_top_varying = rng.uniform(0.1, 0.9, n)
+    with pytest.raises(ValueError, match="zero variance"):
+        fit_additive(a_spec_constant, a_top_varying, perf_series)

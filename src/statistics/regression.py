@@ -56,12 +56,43 @@ def transform_mse_to_higher_is_better(mse: np.ndarray, floor: float = 1e-12) -> 
     return -np.log(mse)
 
 
+def _check_predictor_variance(a_spec: np.ndarray, a_top: np.ndarray, min_std: float = 1e-6) -> None:
+    """Guards against a real, serious numerical bug found during execution:
+    if either predictor has (near-)zero variance in the calibration fold
+    (e.g. A_top saturated at exactly 1.0 for every circuit at small scale,
+    as happened in Checkpoint 8), the regression design matrix becomes
+    singular/rank-deficient once combined with the intercept term. An
+    unregularized (or positive-constrained/NNLS) least-squares solver on a
+    singular system has NO UNIQUE SOLUTION -- the returned coefficient for
+    the degenerate predictor is determined by floating-point noise alone,
+    and was observed to vary wildly (0, 14.3, 686.9) across otherwise
+    identical runs on different machines/library versions for exactly this
+    reason. We refuse to silently return such a number.
+    """
+    if np.std(a_spec) < min_std:
+        raise ValueError(
+            f"A_spec has (near-)zero variance in this calibration fold (std={np.std(a_spec):.2e} < {min_std}). "
+            f"Fitting a coefficient against a near-constant predictor is numerically singular and produces "
+            f"an arbitrary, platform-dependent result rather than a meaningful weight -- refusing to fit. "
+            f"Widen the calibration sample or the circuit-generation space so A_spec actually varies."
+        )
+    if np.std(a_top) < min_std:
+        raise ValueError(
+            f"A_top has (near-)zero variance in this calibration fold (std={np.std(a_top):.2e} < {min_std}). "
+            f"This was observed in practice (Checkpoint 8: A_top=1.0 for all 20 calibration circuits at "
+            f"small scale) and produces a numerically singular, platform-dependent regression coefficient "
+            f"if not caught -- refusing to fit. Widen the calibration sample, the entangling-layout diversity, "
+            f"or the light-cone depth so A_top actually varies across the calibration fold."
+        )
+
+
 def fit_additive(calibration_a_spec: np.ndarray, calibration_a_top: np.ndarray,
                   calibration_performance: PerformanceSeries) -> AggregationWeights:
     """Fit alpha_plus, beta_plus via OLS on the CALIBRATION fold only
     (Remark 3.17: A_+'s native fitting procedure is ordinary least squares,
     since alpha, beta enter as linear coefficients).
     """
+    _check_predictor_variance(calibration_a_spec, calibration_a_top)
     X = np.column_stack([calibration_a_spec, calibration_a_top])
     y = calibration_performance.values
     reg = LinearRegression(positive=True).fit(X, y)
@@ -84,6 +115,7 @@ def fit_conjunctive_log_linear(calibration_a_spec: np.ndarray, calibration_a_top
             "epsilon must be a fixed, pre-registered positive value (Remark 3.18a). "
             "Read it from configs/statistics/epsilon.yaml; do not pass a default here."
         )
+    _check_predictor_variance(calibration_a_spec, calibration_a_top)
     log_a_spec = np.array([epsilon_shifted_log(a, epsilon) for a in calibration_a_spec])
     log_a_top = np.array([epsilon_shifted_log(a, epsilon) for a in calibration_a_top])
     # performance must be strictly positive for log(); PerformanceSeries

@@ -1,0 +1,37 @@
+{
+  "LABEL": "MECHANISM DEMONSTRATION -- NOT EVIDENCE FOR H0/H1 (N=40, 1 seed, 5 steps; far below the pre-registered N=420/family, >=10 seeds)",
+  "pool_size": 40,
+  "n_calibration": 20,
+  "n_evaluation": 20,
+  "leakage_check_passed_on_real_split": true,
+  "leakage_correctly_detected_on_injected_overlap": true,
+  "calibration_fold_diagnostics": {
+    "a_top_std": 0.0,
+    "a_top_mean": 1.0,
+    "a_spec_std": 0.40029733149129065,
+    "corr_a_spec_vs_performance": -0.0784986751588909
+  },
+  "fitted_weights_calibration_fold_only": null,
+  "fitting_refused_reason": "A_top has (near-)zero variance in this calibration fold (std=0.00e+00 < 1e-06). This was observed in practice (Checkpoint 8: A_top=1.0 for all 20 calibration circuits at small scale) and produces a numerically singular, platform-dependent regression coefficient if not caught -- refusing to fit. Widen the calibration sample, the entangling-layout diversity, or the light-cone depth so A_top actually varies across the calibration fold.",
+  "evaluation_fold_r2_A_plus_vs_performance": null,
+  "timing": {
+    "training_seconds_total": 222.16176647199973,
+    "training_seconds_per_circuit": 5.554044161799993
+  },
+  "environment": {
+    "python_version": "3.11.15 (main, Mar 11 2026, 17:20:07) [GCC 14.3.0]",
+    "platform": "Linux-6.6.114.1-microsoft-standard-WSL2-x86_64-with-glibc2.35",
+    "processor": "x86_64",
+    "git_commit": "dc76024a864fce62271518c18168688a2fde3f6a",
+    "numpy_version": "2.4.4",
+    "scipy_version": "1.17.1",
+    "pandas_version": "3.0.2",
+    "sklearn_version": "1.8.0",
+    "matplotlib_version": "3.10.8",
+    "pennylane_version": "0.45.1",
+    "networkx_version": "3.6.1",
+    "statsmodels_version": "0.15.0",
+    "pytest_version": "9.1.1"
+  },
+  "config_hash": "6daeac3de7cb33a249ccf7de2a2195f7ca36378455f3c35146b52d3aa98af5fa"
+}
