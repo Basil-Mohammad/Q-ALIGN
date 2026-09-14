@@ -1,0 +1,93 @@
+{
+  "checkpoint": 5,
+  "criterion": {
+    "max_relative_bias": 0.1,
+    "max_rmse": 0.1
+  },
+  "sample_sizes_tested": [
+    100,
+    250,
+    500,
+    1000,
+    2500,
+    5000
+  ],
+  "n_repeats_per_size": 30,
+  "spectral_estimator_validation": {
+    "per_sample_size": {
+      "100": {
+        "bias": 2.159676749179081,
+        "variance": 0.14972596776958472,
+        "rmse": 2.1940669152772685,
+        "relative_bias": 3.4554827986865297
+      },
+      "250": {
+        "bias": 0.8550503721036586,
+        "variance": 0.016561372840256022,
+        "rmse": 0.8646805836115792,
+        "relative_bias": 1.368080595365854
+      },
+      "500": {
+        "bias": 0.4307805238054514,
+        "variance": 0.007518665423039102,
+        "rmse": 0.43942066987470924,
+        "relative_bias": 0.6892488380887223
+      },
+      "1000": {
+        "bias": 0.2175561858210754,
+        "variance": 0.002123534606050573,
+        "rmse": 0.22238306723998763,
+        "relative_bias": 0.34808989731372064
+      },
+      "2500": {
+        "bias": 0.09040060941138806,
+        "variance": 0.0008415320958010484,
+        "rmse": 0.09494104632745202,
+        "relative_bias": 0.14464097505822088
+      },
+      "5000": {
+        "bias": 0.04563466272578387,
+        "variance": 0.0003197910285418618,
+        "rmse": 0.04901340092911233,
+        "relative_bias": 0.0730154603612542
+      }
+    },
+    "criterion": {
+      "max_relative_bias": 0.1,
+      "max_rmse": 0.1
+    },
+    "passed_at_largest_n": true,
+    "largest_n_tested": 5000
+  },
+  "weighted_topology_estimator_validation": {
+    "n_pairs": 10,
+    "dp_vs_exact": {
+      "mean_abs_error": 0.11413333333333331,
+      "max_abs_error": 0.21200000000000002,
+      "mean_rel_error": 0.261,
+      "kendall_tau_vs_exact": 0.8666666666666666
+    },
+    "spectral_vs_exact": {
+      "mean_abs_error": 0.1316736533684503,
+      "max_abs_error": 0.16909090909090901,
+      "mean_rel_error": 0.32325052733392257,
+      "kendall_tau_vs_exact": 0.8666666666666666
+    }
+  },
+  "environment": {
+    "python_version": "3.11.15 (main, Mar 11 2026, 17:20:07) [GCC 14.3.0]",
+    "platform": "Linux-6.6.114.1-microsoft-standard-WSL2-x86_64-with-glibc2.35",
+    "processor": "x86_64",
+    "git_commit": "57d5eaaa5e8a51fb9cae21b3480c822b6f488a92",
+    "numpy_version": "2.4.4",
+    "scipy_version": "1.17.1",
+    "pandas_version": "3.0.2",
+    "sklearn_version": "1.8.0",
+    "matplotlib_version": "3.10.8",
+    "pennylane_version": "0.45.1",
+    "networkx_version": "3.6.1",
+    "statsmodels_version": "0.15.0",
+    "pytest_version": "9.1.1"
+  },
+  "config_hash": "593606ba57747a04ac30b3392b4ccac8ddfcd5ba464d2cd64d894b62c5f04837"
+}
