@@ -2,10 +2,10 @@
   "checkpoint": 0,
   "status": "PASS",
   "environment": {
-    "python_version": "3.12.3 (main, Mar  3 2026, 12:15:18) [GCC 13.3.0]",
-    "platform": "Linux-6.18.44-fc-v32-x86_64-with-glibc2.39",
+    "python_version": "3.11.15 (main, Mar 11 2026, 17:20:07) [GCC 14.3.0]",
+    "platform": "Linux-6.6.114.1-microsoft-standard-WSL2-x86_64-with-glibc2.35",
     "processor": "x86_64",
-    "git_commit": "UNAVAILABLE",
+    "git_commit": "5198e8dec86d4e33a2bba29cee53f22d1bbb0dff",
     "numpy_version": "2.4.4",
     "scipy_version": "1.17.1",
     "pandas_version": "3.0.2",

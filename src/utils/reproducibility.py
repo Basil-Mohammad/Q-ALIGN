@@ -12,9 +12,24 @@ independence for all PRNG algorithms).
 from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Dict, List
+import zlib
 import numpy as np
 
 PURPOSES = ("training", "initialization", "data_generation", "search", "noise", "bootstrap")
+
+
+def _stable_purpose_code(purpose: str) -> int:
+    """A deterministic integer derived from `purpose`, stable ACROSS
+    process invocations (unlike Python's built-in `hash()`, which is
+    randomized per-process by default via PYTHONHASHSEED for security
+    reasons). Using `hash()` here was a real reproducibility bug found
+    during testing: the same master_seed produced DIFFERENT streams on
+    separate runs of the same script, exactly defeating the purpose of
+    this module. zlib.crc32 over the UTF-8 bytes is fast, has no such
+    randomization, and is identical on every platform/process/Python
+    version.
+    """
+    return zlib.crc32(purpose.encode("utf-8"))
 
 # Fixed, documented seed list (manuscript Sec 7: "prefer a fixed documented
 # seed list", "do not randomly regenerate seeds between runs"). This is the
@@ -43,7 +58,9 @@ class SeedRegistry:
         key = f"{purpose}:{index}"
         if key not in self._cache:
             # Distinct spawn key per (purpose, index) guarantees independence.
-            ss = np.random.SeedSequence([self.master_seed, hash(purpose) % (2**32), index])
+            # Uses a STABLE hash of `purpose` (see _stable_purpose_code), not
+            # Python's randomized built-in hash() -- see module docstring.
+            ss = np.random.SeedSequence([self.master_seed, _stable_purpose_code(purpose), index])
             self._cache[key] = np.random.default_rng(ss)
         return self._cache[key]
 

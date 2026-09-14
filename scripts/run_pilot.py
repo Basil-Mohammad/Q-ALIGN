@@ -44,7 +44,7 @@ N_QUBITS = 3
 N_VARS = 3
 POOL_SIZE = 12
 N_SEEDS = 3  # PILOT ONLY -- manuscript brief Sec 7 requires >=10 for any FINAL claim
-N_PARTIAL_STEPS = 20
+N_PARTIAL_STEPS = 8
 
 ENTANGLING_LAYOUTS = {
     "linear": lambda rng: linear_chain(N_QUBITS),
@@ -171,7 +171,7 @@ def main():
         training_time = (time.perf_counter() - t1) / N_SEEDS  # per-seed average, for the cost ratio
 
         grad_var_rng = seed_registry.stream("initialization", 99)
-        trainability = gradient_variance_trainability_proxy(circ, X, y, grad_var_rng, n_inits=5)  # pilot n_inits, not the 20 default
+        trainability = gradient_variance_trainability_proxy(circ, X, y, grad_var_rng, n_inits=3)  # pilot n_inits, not the 20 default
 
         per_circuit_results.append({
             "circuit_id": circ.circuit_id,

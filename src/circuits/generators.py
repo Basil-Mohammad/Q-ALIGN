@@ -57,7 +57,7 @@ class QAlignCircuit:
 
         n_layers = len(self.encoding.layers)
 
-        @qml.qnode(dev, diff_method="parameter-shift")
+        @qml.qnode(dev, diff_method="best")
         def circuit(x: np.ndarray, theta: np.ndarray):
             # theta shape: (n_layers, n_qubits, 3)
             for l, enc_layer in enumerate(self.encoding.layers):
