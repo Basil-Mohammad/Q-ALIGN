@@ -343,7 +343,7 @@
     "python_version": "3.11.15 (main, Mar 11 2026, 17:20:07) [GCC 14.3.0]",
     "platform": "Linux-6.6.114.1-microsoft-standard-WSL2-x86_64-with-glibc2.35",
     "processor": "x86_64",
-    "git_commit": "24b9ce209f864daa5f1b25c5da78e97e4ccf7f84",
+    "git_commit": "e16fc4f73e504544b30aac8a9b0075571feaa98a",
     "numpy_version": "2.4.4",
     "scipy_version": "1.17.1",
     "pandas_version": "3.0.2",
